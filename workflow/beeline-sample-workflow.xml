@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<workflow-app xmlns="uri:oozie:workflow:0.5" name="beeline-sample-wf">
+  <start to="beeline_hive_action"/> 
+	<action name="beeline_hive_action">
+	<hive2 xmlns="uri:oozie:hive2-action:0.1">
+            <job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+            <prepare>
+            </prepare>
+            <configuration>
+                <property>
+                    <name>mapred.job.queue.name</name>
+                    <value>${queueName}</value>
+                </property>
+            </configuration>
+            <jdbc-url>${jdbcURL}</jdbc-url>
+            <script>${rootDir}/beeline-sample-script/script.hive</script>
+                <param>database_name=${database_name}</param>
+                <param>table_name=${table_name}</param>
+        </hive2>
+        <ok to="end"/>
+        <error to="fail"/>
+	</action>
+
+    <kill name="fail">
+        <message>Hive2 (Beeline) action failed, error message[${wf:errorMessage(wf:lastErrorNode())}]</message>
+    </kill>
+	
+    <end name="end"/>
+	
+</workflow-app>

@@ -1,0 +1,6 @@
+select 1;
+
+!run ./script1.hive
+!run ./script2.hive
+
+!quit

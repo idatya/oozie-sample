@@ -1,0 +1,5 @@
+For ssh action we need to have password less ssh for the node where scripts kept.
+
+References:
+https://www.infoq.com/articles/oozieexample/
+https://docs.cloudera.com/HDPDocuments/HDP2/HDP-2.6.0/bk_spark-component-guide/content/ch_oozie-spark-action.html#spark-config-oozie-spark2

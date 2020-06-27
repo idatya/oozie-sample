@@ -1,0 +1,8 @@
+set hive.groupby.orderby.position.alias=true;
+set hive.exec.drop.ignorenonexistent=true;
+use ${database_name};
+DROP TABLE IF EXISTS ${database_name}.${table_name};
+create table IF NOT EXISTS ${database_name}.${table_name}(id int,name string,
+age int,time double) STORED AS ${HIVE_FILE_FORMAT};
+
+

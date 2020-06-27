@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<workflow-app xmlns="uri:oozie:workflow:0.5" name="ssh-shell-sample-wf">
+    <start to="shell_call_first"/>
+   
+	<action name="shell_call_first">
+        <shell xmlns="uri:oozie:shell-action:0.1">
+                <job-tracker>${jobTracker}</job-tracker>
+                <name-node>${nameNode}</name-node>
+                <exec>shell-start.sh</exec>
+                <file>${rootDir}/shell-dir/shell-start.sh</file>
+        </shell>
+        <ok to="sshAction_custom"/>
+        <error to="fail"/>
+	</action>
+
+	<action name="sshAction_custom">
+	<ssh xmlns="uri:oozie:ssh-action:0.1">
+      		<host>${hostName}</host>
+	      	<command>sh ${ScriptPath}</command>
+	</ssh>
+    	<ok to="shell_call"/>
+	<error to="fail"/>
+	</action>
+	
+	<action name="shell_call">
+	<shell xmlns="uri:oozie:shell-action:0.1">
+		<job-tracker>${jobTracker}</job-tracker>
+		<name-node>${nameNode}</name-node>
+		<exec>beeline-script.sh</exec>
+		<file>${rootDir}/scripts/beeline-script.sh</file>
+	</shell>
+	<ok to="end"/>
+	<error to="fail"/>
+	</action>
+   
+	<kill name="fail">
+        	<message>Hive2 (Beeline) action failed, error message[${wf:errorMessage(wf:lastErrorNode())}]</message>
+	</kill>
+	
+    <end name="end"/>
+	
+</workflow-app>

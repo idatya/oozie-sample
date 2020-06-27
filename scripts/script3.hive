@@ -1,0 +1,7 @@
+set hive.groupby.orderby.position.alias=true;
+set hive.exec.drop.ignorenonexistent=true;
+use ${database_name};
+insert into table ${database_name}.${table_name}
+select id,concat(name,'_fmsuffix') as name, age, time 
+from ${database_name}.${table_name}_ext;
+
